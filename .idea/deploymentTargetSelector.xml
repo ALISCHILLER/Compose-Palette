@@ -5,19 +5,19 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PreviewProgressBarDemo3">
+      <SelectionState runConfigName="AdvancedProgressBarPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PreviewProgressBarDemo">
+      <SelectionState runConfigName="ProfessionalProgressBarPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PreviewProgressBarDemo4">
+      <SelectionState runConfigName="UltraProgressBarPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PreviewProgressBarDemo5">
+      <SelectionState runConfigName="ExplosiveProgressBarPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PreviewHyperDrive">
+      <SelectionState runConfigName="UltraModernPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

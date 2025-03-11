@@ -1,4 +1,4 @@
-package com.msa.composepalette.progressBar
+package com.msa.composepalette.progressBar.linear
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -19,14 +19,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.graphicsLayer
 
 @Composable
-fun AdvancedLinearProgressBar(
+fun ProfessionalLinearProgressBar(
     progress: Float,
     modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colorScheme.surfaceVariant,
-    progressColors: List<Color> = listOf(Color.Magenta, Color.Cyan),
+    progressColors: List<Color> = listOf(
+        Color(0xFF6200EE),
+        Color(0xFF03DAC5),
+        Color(0xFFE91E63)
+    ),
     animationDuration: Int = 1500
 ) {
     // انیمیشن گرادیان متحرک
@@ -36,23 +41,25 @@ fun AdvancedLinearProgressBar(
         targetValue = 1000f,
         animationSpec = infiniteRepeatable(
             animation = tween(animationDuration, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
+            repeatMode = RepeatMode.Reverse
         )
     )
 
-    // انیمیشن پیشرفت
+    // انیمیشن پیشرفت با اسپرینگ
     val animatedProgress by animateFloatAsState(
         targetValue = progress,
-        animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing)
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessLow
+        )
     )
 
     BoxWithConstraints(
         modifier = modifier
-            .height(12.dp)
-            .clip(RoundedCornerShape(25.dp))
+            .height(16.dp)
+            .clip(RoundedCornerShape(50))
             .background(backgroundColor)
     ) {
-        // محاسبه عرض پیشرفت با استفاده از constraints.maxWidth
         val progressWidth = animatedProgress * constraints.maxWidth
 
         // بخش پیشرفت با گرادیان متحرک
@@ -67,48 +74,54 @@ fun AdvancedLinearProgressBar(
                         end = Offset(translateAnimation.value, 0f)
                     )
                 )
-                .clip(RoundedCornerShape(25.dp))
+                .clip(RoundedCornerShape(50))
         )
 
-        // متن درصد پیشرفت
+        // متن پیشرفت با افکت برجستگی
         Text(
             text = "${(animatedProgress * 100).toInt()}%",
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(4.dp),
+                .padding(4.dp)
+                .graphicsLayer(
+                    shadowElevation = with(LocalDensity.current) { 4.dp.toPx() }, // تبدیل dp به پیکسل
+                    shape = RoundedCornerShape(8.dp),
+                    clip = true
+                )
+                .clip(RoundedCornerShape(8.dp)),
             color = MaterialTheme.colorScheme.onSurface,
-            fontSize = 12.sp,
-            textAlign = TextAlign.Center
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyMedium.copy(
+                shadow = Shadow(
+                    color = Color.Black.copy(alpha = 0.2f),
+                    offset = Offset(2f, 2f),
+                    blurRadius = 8f
+                )
+            )
         )
     }
 }
 
-// برای دریافت عرض Modifier
-//@Composable
-//private fun Modifier.calculateProgressWidth(): Float {
-//    val constraints = BoxWithConstraints { constraints }
-//    return if (this == Modifier.fillMaxWidth()) {
-//        constraints.maxWidth.toFloat()
-//    } else {
-//        0f
-//    }
-//}
-
 @Preview(showBackground = true)
 @Composable
-fun AdvancedProgressBarPreview() {
+fun ProfessionalProgressBarPreview() {
     var progress by remember { mutableStateOf(0.5f) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(50.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AdvancedLinearProgressBar(
+        ProfessionalLinearProgressBar(
             progress = progress,
             modifier = Modifier.fillMaxWidth(),
-            progressColors = listOf(Color.Magenta, Color.Cyan)
+            progressColors = listOf(
+                Color(0xFF6200EE),
+                Color(0xFF03DAC5),
+                Color(0xFFE91E63)
+            )
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -120,4 +133,3 @@ fun AdvancedProgressBarPreview() {
         )
     }
 }
-
